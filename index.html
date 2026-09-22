@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Halim Sort Center MW - Trivia Hunt</title>
+<meta name="description" content="Trivia Hunt dan scorecard Halim Sort Center MW.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    box-sizing:border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    --purple:#7b2ff7; --purple-deep:#4a148c; --pink:#ff2fb0; --pink2:#ff6ec7;
+    --cyan:#35e6ff; --gold:#ffd23f; --success:#3ce6a6; --danger:#ff4d6d;
+    --text:#f4ecff; --muted:#b7a4e0;
+  }
+  :root[data-theme="dark"]{
+    --purple:#7b2ff7; --purple-deep:#4a148c; --pink:#ff2fb0; --pink2:#ff6ec7;
+    --cyan:#35e6ff; --gold:#ffd23f; --success:#3ce6a6; --danger:#ff4d6d;
+    --text:#f4ecff; --muted:#b7a4e0;
+  }
+  *{box-sizing:border-box;}
+  html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px);}
+  body{
+    margin:0;min-height:100%;color:var(--text);
+    font-family:'Poppins','Segoe UI',Tahoma,sans-serif;
+    background:
+      radial-gradient(circle at 12% 8%, rgba(255,140,60,0.22), transparent 38%),
+      radial-gradient(circle at 92% 88%, rgba(60,110,255,0.28), transparent 45%),
+      radial-gradient(circle at 85% 10%, rgba(255,47,176,0.18), transparent 32%),
+      linear-gradient(165deg,#170a33 0%,#0a0518 75%);
+    display:flex;justify-content:center;align-items:flex-start;
+    padding:26px 12px;
+  }
+  h1,h2,h3{font-family:'Baloo 2','Segoe UI',sans-serif;margin:0;}
+  button{font-family:inherit;}
+  .app{
+    position:relative;width:100%;max-width:430px;min-height:800px;
+    background:linear-gradient(180deg, rgba(38,16,74,0.96), rgba(13,6,30,0.98));
+    border:1px solid rgba(255,255,255,0.09);border-radius:34px;
+    box-shadow:0 30px 80px rgba(0,0,0,0.55), inset 0 0 0 1px rgba(255,255,255,0.03);
+    overflow:hidden;
+  }
+  @media (max-width:480px){
+    body{padding:0;}
+    .app{border-radius:0;min-height:100vh;box-shadow:none;border:none;}
+  }
+  .screen{padding:22px 20px 30px;min-height:100%;}
+  .hidden{display:none !important;}
+  .muted-center{color:var(--muted);text-align:center;font-size:.85rem;padding:20px 0;}
+
+  /* ---------- HOME ---------- */
+  .home-topbar{display:flex;justify-content:space-between;align-items:center;}
+  .coin-badge{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.35);
+    border:1px solid var(--gold);border-radius:999px;padding:8px 14px;font-weight:700;
+    color:var(--gold);box-shadow:0 0 14px rgba(255,210,63,0.3);font-size:.85rem;}
+  .top-icons{display:flex;gap:10px;}
+  .icon-btn{width:42px;height:42px;border-radius:14px;border:1px solid var(--cyan);
+    background:rgba(0,0,0,0.35);color:var(--cyan);font-size:1.05rem;display:grid;place-items:center;
+    cursor:pointer;box-shadow:0 0 12px rgba(53,230,255,0.28);}
+  .avatar-btn{width:42px;height:42px;border-radius:50%;border:2px solid var(--pink);
+    background:linear-gradient(135deg,#3a1466,#1c0838);font-size:1.3rem;display:grid;place-items:center;
+    cursor:pointer;box-shadow:0 0 14px rgba(255,47,176,0.4);}
+  .logo-area{text-align:center;margin:26px 0 10px;}
+  .logo-badge{font-size:2.4rem;filter:drop-shadow(0 0 10px rgba(255,210,63,0.6));}
+  .game-title{font-size:2.1rem;line-height:1.05;margin:6px 0 2px;
+    background:linear-gradient(135deg,#ff2fb0,#ffd23f);-webkit-background-clip:text;background-clip:text;
+    color:transparent;text-shadow:0 0 22px rgba(255,47,176,0.3);}
+  .game-title span{display:block;font-size:1.8rem;color:#fff;-webkit-text-fill-color:#fff;
+    text-shadow:0 0 18px rgba(53,230,255,0.55);}
+  .game-subtitle{margin-top:6px;color:var(--muted);letter-spacing:.14em;font-size:.72rem;
+    text-transform:uppercase;font-weight:700;}
+  .menu-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:28px 0 18px;}
+  .menu-card{background:rgba(10,6,26,0.6);border:1px solid rgba(53,230,255,0.32);border-radius:18px;
+    padding:20px 10px;display:flex;flex-direction:column;align-items:center;gap:8px;color:#fff;
+    font-weight:700;font-size:.85rem;cursor:pointer;transition:.2s;}
+  .menu-card:hover{border-color:var(--cyan);box-shadow:0 0 16px rgba(53,230,255,0.3);transform:translateY(-2px);}
+  .menu-card.disabled{opacity:.32;pointer-events:none;}
+  .menu-icon{font-size:1.7rem;}
+  .play-btn{display:block;width:100%;margin-top:8px;padding:17px;border:none;border-radius:999px;
+    background:linear-gradient(135deg,#ff2fb0,#7b2ff7);color:#fff;font-family:'Baloo 2',sans-serif;
+    font-size:1.25rem;letter-spacing:.06em;font-weight:700;cursor:pointer;
+    box-shadow:0 10px 30px rgba(255,47,176,0.45);}
+  .play-btn:active{transform:scale(.97);}
+
+  /* ---------- QUIZ ---------- */
+  .quiz-topbar{display:flex;justify-content:space-between;align-items:center;}
+  .timer-wrap{position:relative;width:66px;height:66px;}
+  .timer-ring-svg{width:100%;height:100%;transform:rotate(-90deg);}
+  .ring-bg{fill:none;stroke:rgba(255,255,255,0.1);stroke-width:8;}
+  .ring-fg{fill:none;stroke:var(--cyan);stroke-width:8;stroke-linecap:round;
+    stroke-dasharray:326.7;stroke-dashoffset:0;transition:stroke-dashoffset 1s linear,stroke .3s;}
+  .timer-num{position:absolute;inset:0;display:grid;place-items:center;font-weight:800;
+    font-family:'Baloo 2',sans-serif;font-size:1.1rem;}
+  .score-badge{display:flex;align-items:center;gap:6px;background:rgba(0,0,0,0.35);
+    border:1px solid var(--gold);border-radius:999px;padding:8px 14px;font-weight:700;
+    color:var(--gold);box-shadow:0 0 14px rgba(255,210,63,0.3);font-size:.82rem;}
+  .tracker-row{display:flex;gap:6px;overflow-x:auto;padding:16px 2px 4px;}
+  .tracker-row::-webkit-scrollbar{height:5px;}
+  .tracker-dot{flex:0 0 auto;width:30px;height:30px;border-radius:10px;border:1px solid rgba(255,255,255,0.18);
+    display:grid;place-items:center;font-size:.7rem;font-weight:700;color:var(--muted);
+    background:rgba(255,255,255,0.04);cursor:pointer;}
+  .tracker-dot.active{border-color:var(--cyan);box-shadow:0 0 10px rgba(53,230,255,0.5);color:#fff;}
+  .tracker-dot.correct{background:rgba(60,230,166,0.25);border-color:var(--success);color:#fff;}
+  .tracker-dot.wrong{background:rgba(255,77,109,0.25);border-color:var(--danger);color:#fff;}
+  .question-counter-pill{display:block;width:max-content;margin:6px auto 16px;padding:8px 18px;
+    border:1px solid var(--gold);border-radius:999px;color:var(--gold);font-weight:700;
+    font-size:.78rem;background:rgba(0,0,0,0.3);}
+  .hex-question{clip-path:polygon(5% 0,95% 0,100% 50%,95% 100%,5% 100%,0 50%);
+    background:linear-gradient(135deg,rgba(123,47,247,0.35),rgba(255,47,176,0.18));
+    border:1px solid rgba(255,255,255,0.22);padding:30px 36px;text-align:center;font-weight:700;
+    font-size:1rem;line-height:1.55;white-space:pre-line;color:#fff;margin-bottom:22px;
+    min-height:96px;display:flex;align-items:center;justify-content:center;}
+  .options-wrap{display:flex;flex-direction:column;gap:12px;}
+  .hex-option{display:flex;align-items:center;gap:14px;padding:14px 16px;border:1px solid rgba(53,230,255,0.32);
+    border-radius:14px;background:rgba(10,6,26,0.55);color:#fff;font-weight:600;font-size:.92rem;
+    cursor:pointer;transition:.15s;text-align:left;}
+  .hex-option:hover:not(:disabled){border-color:var(--cyan);box-shadow:0 0 12px rgba(53,230,255,0.3);}
+  .option-letter{width:28px;height:28px;border-radius:9px;background:rgba(255,255,255,0.08);
+    display:grid;place-items:center;font-weight:800;flex:0 0 auto;font-size:.82rem;}
+  .hex-option.correct{border-color:var(--success);background:rgba(60,230,166,0.18);
+    box-shadow:0 0 16px rgba(60,230,166,0.3);}
+  .hex-option.correct .option-letter{background:var(--success);color:#04241a;}
+  .hex-option.incorrect{border-color:var(--danger);background:rgba(255,77,109,0.18);
+    box-shadow:0 0 16px rgba(255,77,109,0.3);}
+  .hex-option.incorrect .option-letter{background:var(--danger);color:#2b0308;}
+  .hex-option:disabled{cursor:default;}
+  .quiz-feedback{display:none;align-items:center;justify-content:space-between;gap:12px;
+    margin-top:18px;padding:15px 16px;border:2px solid transparent;border-radius:14px;
+    background:rgba(7,10,30,0.55);}
+  .quiz-feedback.correct{border-color:#56e7b1;background:rgba(27,170,126,0.22);}
+  .quiz-feedback.wrong{border-color:#ff7e87;background:rgba(186,48,68,0.22);}
+  .quiz-feedback:not(.hidden){display:flex;}
+  .feedback-text strong{display:block;color:#fff;font-size:.95rem;}
+  .feedback-text span{color:#e6d9ff;font-size:.76rem;}
+  .next-btn{border:none;border-radius:12px;padding:.7rem 1.1rem;font-weight:700;cursor:pointer;
+    background:linear-gradient(135deg,var(--cyan),#2b8cff);color:#052033;white-space:nowrap;}
+
+  /* ---------- LEADERBOARD ---------- */
+  .lb-topbar{display:flex;justify-content:space-between;align-items:center;}
+  .lb-topbar h2{font-size:1.3rem;}
+  .lb-tabs{display:flex;justify-content:center;gap:8px;margin:16px 0 18px;}
+  .lb-tab{border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.04);color:var(--muted);
+    padding:8px 16px;border-radius:999px;font-size:.74rem;font-weight:800;cursor:pointer;}
+  .lb-tab.active{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;border-color:transparent;}
+  .podium{display:flex;align-items:flex-end;justify-content:center;gap:12px;margin:6px 0 24px;}
+  .podium-item{display:flex;flex-direction:column;align-items:center;gap:6px;}
+  .podium-avatar{width:56px;height:56px;border-radius:50%;background:linear-gradient(135deg,#3a1466,#1c0838);
+    border:3px solid var(--cyan);display:grid;place-items:center;font-size:1.5rem;
+    box-shadow:0 0 16px rgba(53,230,255,0.35);}
+  .podium-item.rank-1 .podium-avatar{width:74px;height:74px;border-color:var(--gold);
+    box-shadow:0 0 22px rgba(255,210,63,0.5);font-size:1.9rem;}
+  .podium-item.rank-2 .podium-avatar,.podium-item.rank-3 .podium-avatar{border-color:var(--pink);}
+  .podium-name{font-size:.75rem;font-weight:700;text-align:center;max-width:80px;overflow:hidden;
+    text-overflow:ellipsis;white-space:nowrap;}
+  .podium-score{font-size:.7rem;color:var(--gold);font-weight:700;}
+  .podium-medal{font-size:1.05rem;}
+  .lb-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border:1px solid rgba(255,255,255,0.1);
+    border-radius:14px;margin-bottom:10px;background:rgba(10,6,26,0.5);}
+  .lb-rank{width:24px;text-align:center;font-weight:800;color:var(--pink);}
+  .lb-avatar{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,0.08);
+    display:grid;place-items:center;font-size:1rem;flex:0 0 auto;}
+  .lb-info{flex:1;min-width:0;}
+  .lb-name{font-weight:700;font-size:.86rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .lb-sub{font-size:.7rem;color:var(--muted);}
+  .lb-score{font-weight:800;color:var(--gold);font-size:.82rem;white-space:nowrap;}
+
+  /* ---------- RESULT ---------- */
+  .result-card{text-align:center;margin-top:40px;}
+  .result-emoji{font-size:3rem;}
+  .result-score{color:var(--gold);font-weight:800;font-size:1.1rem;margin:10px 0 4px;}
+  .result-player{color:var(--muted);font-size:.82rem;margin-bottom:22px;}
+  .result-actions{display:flex;flex-direction:column;gap:12px;}
+  .btn-neon{border:none;border-radius:999px;padding:14px;font-weight:800;cursor:pointer;
+    background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;font-size:.95rem;
+    box-shadow:0 10px 26px rgba(255,47,176,0.4);}
+  .btn-outline{border:1px solid rgba(53,230,255,0.4);background:rgba(0,0,0,0.25);color:#fff;
+    border-radius:999px;padding:13px;font-weight:700;cursor:pointer;font-size:.9rem;}
+
+  /* ---------- MODALS ---------- */
+  .modal-overlay{position:fixed;inset:0;background:rgba(3,1,10,0.72);backdrop-filter:blur(4px);
+    display:flex;align-items:center;justify-content:center;padding:20px;z-index:80;}
+  .modal-card{width:100%;max-width:420px;max-height:88vh;overflow-y:auto;
+    background:linear-gradient(180deg,#1c0b3d,#0d0522);border:1px solid rgba(255,255,255,0.12);
+    border-radius:22px;padding:22px;box-shadow:0 30px 60px rgba(0,0,0,0.6);}
+  #modal-admin .modal-card{max-width:640px;}
+  .modal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;}
+  .modal-header h3{font-size:1.15rem;}
+  .modal-close-btn{width:34px;height:34px;border-radius:10px;border:1px solid rgba(255,255,255,0.2);
+    background:rgba(255,255,255,0.05);color:#fff;font-size:.95rem;cursor:pointer;}
+  .form-field{margin-bottom:14px;text-align:left;}
+  .form-field label{display:block;font-size:.72rem;letter-spacing:.05em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:7px;font-weight:700;}
+  .form-field input[type=text],.form-field input[type=number],.form-field input[type=password],
+  .form-field input[type=url],.form-field select,.form-field textarea{
+    width:100%;background:rgba(0,0,0,0.35);color:#fff;border:1px solid rgba(255,255,255,0.18);
+    border-radius:10px;padding:.75rem .85rem;font-size:.9rem;outline:none;font-family:inherit;}
+  .form-field input:focus,.form-field select:focus,.form-field textarea:focus{border-color:var(--cyan);}
+  .form-field textarea{min-height:80px;resize:vertical;}
+  .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+  .switch-row{display:flex;align-items:center;justify-content:space-between;gap:10px;
+    padding:10px 2px;border-bottom:1px solid rgba(255,255,255,0.08);}
+  .switch-row span{font-size:.85rem;font-weight:600;}
+  .switch-row input[type=checkbox]{width:20px;height:20px;accent-color:var(--pink);cursor:pointer;}
+  .emoji-swatch,.color-swatch{width:36px;height:36px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);
+    cursor:pointer;display:grid;place-items:center;font-size:1.05rem;background:rgba(255,255,255,0.05);}
+  .emoji-swatch.active,.color-swatch.active{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(53,230,255,0.25);}
+  .swatch-row{display:flex;flex-wrap:wrap;gap:8px;}
+  .modal-btn-row{display:flex;gap:10px;margin-top:16px;}
+  .modal-btn-row button{flex:1;}
+  .btn-primary-sm{border:none;border-radius:10px;padding:.75rem;font-weight:700;cursor:pointer;
+    background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;font-size:.86rem;}
+  .btn-ghost-sm{border:1px solid rgba(255,255,255,0.2);border-radius:10px;padding:.75rem;font-weight:700;
+    cursor:pointer;background:rgba(255,255,255,0.05);color:#fff;font-size:.86rem;}
+  .error-text{color:var(--danger);font-size:.78rem;margin-top:6px;}
+  .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:6px;}
+  .info-item{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;
+    padding:12px;text-align:center;}
+  .info-item strong{display:block;font-size:1.15rem;color:var(--gold);}
+  .info-item span{font-size:.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;}
+  .history-row{display:flex;justify-content:space-between;align-items:center;padding:12px 4px;
+    border-bottom:1px solid rgba(255,255,255,0.08);}
+  .history-name{font-weight:700;font-size:.86rem;}
+  .history-date{font-size:.7rem;color:var(--muted);}
+  .history-score{font-weight:800;color:var(--gold);font-size:.85rem;}
+
+  /* ---------- ADMIN DASHBOARD ---------- */
+  .admin-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;}
+  .admin-tab{border:1px solid rgba(255,255,255,0.18);background:rgba(255,255,255,0.04);color:var(--muted);
+    padding:8px 14px;border-radius:999px;font-size:.76rem;font-weight:800;cursor:pointer;}
+  .admin-tab.active{background:linear-gradient(135deg,var(--cyan),#2b8cff);color:#052033;border-color:transparent;}
+  .admin-toolbar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;}
+  .mini-btn{border:1px solid rgba(255,255,255,0.2);background:rgba(255,255,255,0.06);color:#fff;
+    border-radius:8px;padding:.45rem .7rem;font-size:.74rem;font-weight:700;cursor:pointer;}
+  .mini-btn.primary{background:linear-gradient(135deg,var(--pink),var(--purple));border-color:transparent;}
+  .mini-btn.danger{background:rgba(255,77,109,0.18);border-color:rgba(255,77,109,0.4);color:#ffc7cf;}
+  .admin-q-row{display:flex;align-items:center;gap:10px;padding:11px 10px;border:1px solid rgba(255,255,255,0.1);
+    border-radius:12px;margin-bottom:8px;background:rgba(255,255,255,0.03);}
+  .admin-q-index{width:22px;text-align:center;font-weight:800;color:var(--cyan);font-size:.8rem;flex:0 0 auto;}
+  .admin-q-preview{flex:1;font-size:.8rem;color:#fff;overflow:hidden;text-overflow:ellipsis;
+    white-space:nowrap;min-width:0;}
+  .admin-option-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .file-hidden{display:none;}
+</style>
+</head>
+<body>
+
+<div class="app" id="app">
+
+  <!-- HOME -->
+  <section class="screen" id="screen-home">
+    <div class="home-topbar">
+      <div class="coin-badge">🪙 <span id="coin-amount">0</span></div>
+      <div class="top-icons">
+        <button class="icon-btn" id="btn-admin" title="Admin" aria-label="Admin">⚙️</button>
+        <button class="avatar-btn" id="btn-avatar" title="Profil" aria-label="Profil">🙂</button>
+      </div>
+    </div>
+    <div class="logo-area">
+      <div class="logo-badge">🏆</div>
+      <h1 class="game-title" id="home-title">JTLY<br><span>QUIZ HUNT</span></h1>
+      <p class="game-subtitle" id="home-subtitle">SOC DUNEX OPERATION</p>
+    </div>
+    <div class="menu-grid">
+      <button type="button" class="menu-card" id="card-settings"><span class="menu-icon">🔧</span>Settings</button>
+      <button type="button" class="menu-card" id="card-bonus"><span class="menu-icon">🎁</span>Bonus</button>
+      <button type="button" class="menu-card" id="card-history"><span class="menu-icon">📜</span>History</button>
+      <button type="button" class="menu-card" id="card-leaderboard"><span class="menu-icon">🏅</span>Leaderboard</button>
+    </div>
+    <button type="button" class="play-btn" id="btn-play">PLAY</button>
+  </section>
+
+  <!-- QUIZ -->
+  <section class="screen hidden" id="screen-quiz">
+    <div class="quiz-topbar">
+      <button type="button" class="icon-btn" id="quiz-back" aria-label="Kembali">←</button>
+      <div class="timer-wrap">
+        <svg viewBox="0 0 120 120" class="timer-ring-svg">
+          <circle class="ring-bg" cx="60" cy="60" r="52"></circle>
+          <circle class="ring-fg" id="ring-fg" cx="60" cy="60" r="52"></circle>
+        </svg>
+        <span class="timer-num" id="timer-num">45</span>
+      </div>
+      <div class="score-badge">💰 <span id="quiz-score">0</span></div>
+    </div>
+    <div class="tracker-row" id="tracker-row"></div>
+    <div class="question-counter-pill" id="question-counter-pill">Soal 1/20</div>
+    <div class="hex-question" id="hex-question">Pertanyaan akan muncul di sini</div>
+    <div class="options-wrap" id="options-wrap"></div>
+    <div class="quiz-feedback hidden" id="quiz-feedback">
+      <div class="feedback-text">
+        <strong id="feedback-title"></strong>
+        <span id="feedback-copy"></span>
+      </div>
+      <button type="button" class="next-btn" id="btn-next">Next →</button>
+    </div>
+  </section>
+
+  <!-- LEADERBOARD -->
+  <section class="screen hidden" id="screen-leaderboard">
+    <div class="lb-topbar">
+      <button type="button" class="icon-btn" id="lb-back" aria-label="Kembali">←</button>
+      <h2>Leaderboard</h2>
+      <span style="width:42px"></span>
+    </div>
+    <div class="lb-tabs">
+      <button type="button" class="lb-tab active" data-filter="world">World</button>
+      <button type="button" class="lb-tab" data-filter="team">Team</button>
+      <button type="button" class="lb-tab" data-filter="today">Today</button>
+    </div>
+    <div class="podium" id="podium"></div>
+    <div class="lb-list" id="lb-list"></div>
+  </section>
+
+  <!-- RESULT -->
+  <section class="screen hidden" id="screen-result">
+    <div class="result-card">
+      <div class="result-emoji">🏁</div>
+      <h2>Permainan Selesai!</h2>
+      <p class="result-score" id="result-score"></p>
+      <p class="result-player" id="result-player"></p>
+      <div class="result-actions">
+        <button type="button" class="btn-neon" id="btn-see-leaderboard">Lihat Leaderboard</button>
+        <button type="button" class="btn-outline" id="btn-download">Download Excel</button>
+        <button type="button" class="btn-outline" id="btn-play-again">Main Lagi</button>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- MODAL: REGISTER / PROFIL -->
+<div class="modal-overlay hidden" id="modal-register">
+  <div class="modal-card">
+    <div class="modal-header"><h3>Build Your Player</h3><button type="button" class="modal-close-btn" id="reg-cancel-x">✕</button></div>
+    <div class="form-field"><label>Nama Lengkap</label><input type="text" id="reg-name" placeholder="Nama pemain..."></div>
+    <div class="form-field"><label>ID WFM</label><input type="text" id="reg-wfm" placeholder="ID WFM..."></div>
+    <div class="form-field"><label>Team</label>
+      <select id="reg-team">
+        <option value="TEAM A">TEAM A</option>
+        <option value="TEAM B">TEAM B</option>
+        <option value="TEAM C">TEAM C</option>
+        <option value="TEAM D">TEAM D</option>
+      </select>
+    </div>
+    <div class="form-field"><label>Avatar</label><div class="swatch-row" id="avatar-emoji-picker"></div></div>
+    <div class="form-field"><label>Warna</label><div class="swatch-row" id="avatar-color-picker"></div></div>
+    <div class="modal-btn-row">
+      <button type="button" class="btn-ghost-sm" id="reg-cancel">Batal</button>
+      <button type="button" class="btn-primary-sm" id="reg-submit">Mulai Main</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: USER SETTINGS -->
+<div class="modal-overlay hidden" id="modal-settings">
+  <div class="modal-card">
+    <div class="modal-header"><h3>Settings</h3><button type="button" class="modal-close-btn" id="modal-settings-close">✕</button></div>
+    <div class="switch-row"><span>Efek Suara</span><input type="checkbox" id="toggle-sound"></div>
+    <p class="muted-center" style="text-align:left;padding-top:14px;">Pengaturan lain (soal, waktu, skor) dikelola lewat menu Admin di pojok kanan atas.</p>
+  </div>
+</div>
+
+<!-- MODAL: BONUS / INFO -->
+<div class="modal-overlay hidden" id="modal-bonus">
+  <div class="modal-card">
+    <div class="modal-header"><h3>Info Permainan</h3><button type="button" class="modal-close-btn" id="modal-bonus-close">✕</button></div>
+    <div class="info-grid">
+      <div class="info-item"><strong id="bonus-total-soal">20</strong><span>Total Soal</span></div>
+      <div class="info-item"><strong id="bonus-waktu">45s</strong><span>Per Soal</span></div>
+      <div class="info-item"><strong id="bonus-skor">5</strong><span>Skor Benar</span></div>
+      <div class="info-item"><strong id="bonus-max">100</strong><span>Skor Maks</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: HISTORY -->
+<div class="modal-overlay hidden" id="modal-history">
+  <div class="modal-card">
+    <div class="modal-header"><h3>Riwayat Permainan</h3><button type="button" class="modal-close-btn" id="modal-history-close">✕</button></div>
+    <div id="history-list"></div>
+  </div>
+</div>
+
+<!-- MODAL: ADMIN LOGIN -->
+<div class="modal-overlay hidden" id="modal-admin-login">
+  <div class="modal-card">
+    <div class="modal-header"><h3>Admin Login</h3><button type="button" class="modal-close-btn" id="admin-login-cancel-x">✕</button></div>
+    <div class="form-field">
+      <label>Password Admin</label>
+      <input type="password" id="admin-pass-input" placeholder="Masukkan password...">
+      <p class="error-text hidden" id="admin-login-error">Password salah. Coba lagi.</p>
+    </div>
+    <div class="modal-btn-row">
+      <button type="button" class="btn-ghost-sm" id="admin-login-cancel">Batal</button>
+      <button type="button" class="btn-primary-sm" id="admin-login-submit">Masuk</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: ADMIN DASHBOARD -->
+<div class="modal-overlay hidden" id="modal-admin">
+  <div class="modal-card">
+    <div class="modal-header"><h3>Admin Dashboard</h3><button type="button" class="modal-close-btn" id="admin-close">✕</button></div>
+    <div class="admin-tabs">
+      <button type="button" class="admin-tab active" data-tab="soal">Soal</button>
+      <button type="button" class="admin-tab" data-tab="pengaturan">Pengaturan</button>
+      <button type="button" class="admin-tab" data-tab="leaderboard">Leaderboard</button>
+    </div>
+
+    <!-- TAB: SOAL -->
+    <div class="admin-tab-panel" id="admin-panel-soal">
+      <div id="admin-question-list-view">
+        <div class="admin-toolbar">
+          <button type="button" class="mini-btn primary" id="admin-add-question">+ Tambah Soal</button>
+          <button type="button" class="mini-btn" id="admin-export-json">Export JSON</button>
+          <label class="mini-btn" style="cursor:pointer;">Import JSON<input type="file" accept=".json" class="file-hidden" id="admin-import-json"></label>
+          <button type="button" class="mini-btn danger" id="admin-reset-questions">Reset Default</button>
+        </div>
+        <div id="admin-question-list"></div>
+      </div>
+      <div class="admin-tab-panel hidden" id="admin-question-form-view">
+        <h3 id="admin-form-title" style="font-size:1rem;margin-bottom:12px;">Tambah Soal</h3>
+        <div class="form-field"><label>Isi Pertanyaan</label><textarea id="admin-q-text"></textarea></div>
+        <div class="admin-option-grid">
+          <div class="form-field"><label>Jawaban A</label><input type="text" id="admin-q-opt-0"></div>
+          <div class="form-field"><label>Jawaban B</label><input type="text" id="admin-q-opt-1"></div>
+          <div class="form-field"><label>Jawaban C</label><input type="text" id="admin-q-opt-2"></div>
+          <div class="form-field"><label>Jawaban D</label><input type="text" id="admin-q-opt-3"></div>
+        </div>
+        <div class="form-field">
+          <label>Jawaban Benar</label>
+          <select id="admin-q-correct">
+            <option value="0">A</option><option value="1">B</option><option value="2">C</option><option value="3">D</option>
+          </select>
+        </div>
+        <div class="modal-btn-row">
+          <button type="button" class="btn-ghost-sm" id="admin-form-cancel">Batal</button>
+          <button type="button" class="mini-btn danger hidden" id="admin-form-delete" style="flex:1;">Hapus</button>
+          <button type="button" class="btn-primary-sm" id="admin-form-save">Simpan</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB: PENGATURAN -->
+    <div class="admin-tab-panel hidden" id="admin-panel-pengaturan">
+      <div class="form-field"><label>Judul Game</label><input type="text" id="set-title"></div>
+      <div class="form-field"><label>Subjudul</label><input type="text" id="set-subtitle"></div>
+      <div class="form-row-2">
+        <div class="form-field"><label>Durasi per Soal (detik)</label><input type="number" id="set-time" min="5"></div>
+        <div class="form-field"><label>Skor per Jawaban Benar</label><input type="number" id="set-score" min="1"></div>
+      </div>
+      <div class="switch-row"><span>Efek Suara Aktif</span><input type="checkbox" id="set-sound"></div>
+      <div class="switch-row"><span>Tampilkan Menu Bonus</span><input type="checkbox" id="set-bonus-menu"></div>
+      <div class="switch-row"><span>Tampilkan Menu History</span><input type="checkbox" id="set-history-menu"></div>
+      <div class="switch-row"><span>Sinkronisasi Google Sheet</span><input type="checkbox" id="set-sheet-enabled"></div>
+      <div class="form-field" style="margin-top:10px;"><label>URL Google Sheet Webhook</label><input type="url" id="set-sheet-url" placeholder="https://script.google.com/..."></div>
+      <div class="modal-btn-row">
+        <button type="button" class="btn-ghost-sm" id="admin-reset-settings">Reset Default</button>
+        <button type="button" class="btn-primary-sm" id="admin-save-settings">Simpan Pengaturan</button>
+      </div>
+    </div>
+
+    <!-- TAB: LEADERBOARD -->
+    <div class="admin-tab-panel hidden" id="admin-panel-leaderboard">
+      <div class="admin-toolbar">
+        <button type="button" class="mini-btn danger" id="admin-clear-leaderboard">Hapus Semua Leaderboard</button>
+      </div>
+      <div id="admin-lb-list"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var LS_KEYS = {
+    questions:'jtly_questions', leaderboard:'jtly_leaderboard',
+    settings:'jtly_settings', history:'jtly_history', coins:'jtly_coins'
+  };
+
+  var DEFAULT_QUESTIONS = [
+    { question:"1. OTD\nBerapa target OTD yang ditetapkan?", options:["≥ 80%","≥ 85%","≥ 90%","≤ 85%"], answer:1 },
+    { question:"2. Left at SOC\nBerapa target Left at SOC?", options:["≤ 0.08%","≤ 0.10%","≤ 1.00%","≥ 1.00%"], answer:2 },
+    { question:"3. Parcel Lost\nBerapa target Parcel Lost?", options:["≤ 0.08%","≤ 0.10%","≤ 0.20%","≤ 0.60%"], answer:2 },
+    { question:"4. Mis-Sort\nBerapa target Parcel Mis-Sort?", options:["≤ 0.08%","≤ 0.10%","≤ 0.20%","≤ 0.60%"], answer:0 },
+    { question:"5. Mis-Scan\nBerapa target Parcel Mis-Scan?", options:["≤ 0.08%","≤ 0.20%","≤ 0.50%","≤ 0.60%"], answer:3 },
+    { question:"6. Qty Utilization\nBerapa target Qty Utilization?", options:["≥ 45%","≥ 50%","≥ 72%","≥ 85%"], answer:1 },
+    { question:"7. Sub Ticket 12H Resolution\nBerapa target KPI ini?", options:["≥ 85%","≥ 90%","≥ 93.5%","≥ 95%"], answer:2 },
+    { question:"8. Reopen Rate\nBerapa target Overall Reopen Rate?", options:["≤ 20%","≤ 24%","≤ 25%","≥ 24%"], answer:1 },
+    { question:"9. Attendance\nBerapa target Daily Work On Time Attendance?", options:["≥ 85%","≥ 90%","≥ 93.5%","≥ 95%"], answer:1 },
+    { question:"10. Productivity\nBerapa target Prod. SOC?", options:["≥ 1,000","≥ 1,089","≥ 1,100","≥ 1,200"], answer:2 },
+    { question:"11. OTD Calculation\nTotal shipment = 10,000 | On-Time Shipment = 9,200\nBerapa OTD?", options:["90%","92%","94%","95%"], answer:1 },
+    { question:"12. Left at SOC Calculation\nTotal package = 20,000 | Left at SOC = 100 package\nBerapa Left at SOC?", options:["0.25%","0.50%","0.75%","1.00%"], answer:1 },
+    { question:"13. Mis-Sort Calculation\nTotal package = 50,000 | Mis-Sort = 40 package\nBerapa Mis-Sort?", options:["0.04%","0.06%","0.08%","0.10%"], answer:2 },
+    { question:"14. Mis-Scan Calculation\nTotal package = 25,000 | Mis-Scan = 125 package\nBerapa Mis-Scan?", options:["0.25%","0.40%","0.50%","0.60%"], answer:2 },
+    { question:"15. Qty Utilization\nAvailable capacity = 10,000 | Actual quantity = 4,500\nBerapa Qty Utilization?", options:["40%","45%","50%","55%"], answer:1 },
+    { question:"16. Status OTD\nActual OTD = 83.5% | Target = ≥85%\nStatus KPI adalah:", options:["On Track","Achieved","Not Achieved","Excellent"], answer:2 },
+    { question:"17. Status Left at SOC\nActual Left at SOC = 0.75% | Target = ≤1.00%\nStatus:", options:["Not Achieved","On Track","Critical","Tidak dapat dihitung"], answer:1 },
+    { question:"18. Status Qty Utilization\nActual = 45.31% | Target = ≥50%\nBerapa gap terhadap target?", options:["-3.69 pp","-4.69 pp","+4.69 pp","+5.31 pp"], answer:1 },
+    { question:"19. Week-over-Week\nOTD Week 35 = 94.89% | OTD Week 36 = 93.21%\nBerapa perubahan WoW?", options:["+1.68 pp","-1.68 pp","-2.32 pp","+2.32 pp"], answer:1 },
+    { question:"20. FINAL CASE\nPerhatikan performance:\n• OTD: 93.21% (Target ≥85%)\n• Left at SOC: 0.89% (Target ≤1%)\n• Mis-Sort: 0.01% (Target ≤0.08%)\n• Mis-Scan: 0.34% (Target ≤0.60%)\n• Qty Utilization: 45.31% (Target ≥50%)\n• Prod. SOC: 1,089 (Target ≥1,100)\n\nPertanyaan: Berapa KPI yang Not Achieved?", options:["1 KPI","2 KPI","3 KPI","4 KPI"], answer:1 }
+  ];
+
+  var DEFAULT_SETTINGS = {
+    title:'JTLY\nQUIZ HUNT', subtitle:'SOC DUNEX OPERATION',
+    timePerQuestion:45, scorePerCorrect:5, soundEnabled:true,
+    showBonusMenu:true, showHistoryMenu:true, sheetSyncEnabled:false, sheetUrl:''
+  };
+
+  function loadLS(key, fallback){
+    try{
+      var raw = localStorage.getItem(key);
+      if(!raw) return fallback;
+      var parsed = JSON.parse(raw);
+      return (parsed===null||parsed===undefined) ? fallback : parsed;
+    }catch(e){ return fallback; }
+  }
+  function saveLS(key, value){ try{ localStorage.setItem(key, JSON.stringify(value)); }catch(e){} }
+
+  var questions = loadLS(LS_KEYS.questions, DEFAULT_QUESTIONS);
+  var settings = Object.assign({}, DEFAULT_SETTINGS, loadLS(LS_KEYS.settings, {}));
+  var leaderboard = loadLS(LS_KEYS.leaderboard, []);
+  var playHistory = loadLS(LS_KEYS.history, []);
+  var coins = loadLS(LS_KEYS.coins, 0);
+
+  var AVATAR_EMOJIS = ['🙂','😎','🤓','😄','🤠','🦸','🧑‍🚀','🥷','👽','🤖'];
+  var AVATAR_COLORS = ['#ff6b6b','#ff9f43','#feca57','#1dd1a1','#48dbfb','#5f27cd','#ff5e9c'];
+
+  var playerData = { name:'', wfm:'', team:'TEAM A', avatarEmoji:'🙂', avatarColor:AVATAR_COLORS[0] };
+  var currentQuestionIndex = 0, score = 0, timeLeft = settings.timePerQuestion, timerInterval = null;
+  var questionStatuses = [];
+  var adminEditIndex = null;
+  var lbFilter = 'world';
+
+  function $(id){ return document.getElementById(id); }
+  function show(el){ el.classList.remove('hidden'); }
+  function hide(el){ el.classList.add('hidden'); }
+  function switchScreen(id){
+    document.querySelectorAll('.screen').forEach(function(s){ s.classList.add('hidden'); });
+    show($(id));
+  }
+  function formatNumber(n){ return Number(n||0).toLocaleString('id-ID'); }
+  function escapeHtml(str){ var d=document.createElement('div'); d.textContent=str==null?'':String(str); return d.innerHTML; }
+
+  /* ---------- HOME ---------- */
+  function renderHome(){
+    $('home-title').innerHTML = escapeHtml(settings.title).replace(/\n/g,'<br>');
+    $('home-subtitle').textContent = settings.subtitle;
+    $('coin-amount').textContent = formatNumber(coins);
+    $('btn-avatar').textContent = playerData.avatarEmoji || '🙂';
+    $('card-bonus').classList.toggle('disabled', !settings.showBonusMenu);
+    $('card-history').classList.toggle('disabled', !settings.showHistoryMenu);
+  }
+
+  /* ---------- REGISTER ---------- */
+  function openRegister(){
+    $('reg-name').value = playerData.name;
+    $('reg-wfm').value = playerData.wfm;
+    $('reg-team').value = playerData.team;
+    renderAvatarPicker();
+    show($('modal-register'));
+  }
+  function closeRegister(){ hide($('modal-register')); }
+  function renderAvatarPicker(){
+    var emojiWrap = $('avatar-emoji-picker'); emojiWrap.innerHTML='';
+    AVATAR_EMOJIS.forEach(function(e){
+      var b=document.createElement('button');
+      b.type='button'; b.className='emoji-swatch'+(e===playerData.avatarEmoji?' active':'');
+      b.textContent=e;
+      b.onclick=function(){ playerData.avatarEmoji=e; renderAvatarPicker(); };
+      emojiWrap.appendChild(b);
+    });
+    var colorWrap = $('avatar-color-picker'); colorWrap.innerHTML='';
+    AVATAR_COLORS.forEach(function(c){
+      var b=document.createElement('button');
+      b.type='button'; b.className='color-swatch'+(c===playerData.avatarColor?' active':'');
+      b.style.background=c;
+      b.onclick=function(){ playerData.avatarColor=c; renderAvatarPicker(); };
+      colorWrap.appendChild(b);
+    });
+  }
+  function submitRegister(){
+    var name = $('reg-name').value.trim();
+    var wfm = $('reg-wfm').value.trim();
+    var team = $('reg-team').value;
+    if(!name || !wfm){ alert('Harap isi Nama Lengkap dan ID WFM.'); return; }
+    playerData.name=name; playerData.wfm=wfm; playerData.team=team;
+    closeRegister(); renderHome(); startQuiz();
+  }
+
+  /* ---------- QUIZ ---------- */
+  function startQuiz(){
+    if(!questions.length){ alert('Belum ada soal. Hubungi admin untuk menambahkan soal.'); return; }
+    currentQuestionIndex=0; score=0;
+    questionStatuses = questions.map(function(){ return 'unanswered'; });
+    switchScreen('screen-quiz');
+    loadQuestion();
+  }
+  function renderTracker(){
+    var row=$('tracker-row'); row.innerHTML='';
+    questions.forEach(function(_,i){
+      var d=document.createElement('button');
+      d.type='button';
+      var cls='tracker-dot';
+      if(i===currentQuestionIndex) cls+=' active';
+      if(questionStatuses[i]==='correct') cls+=' correct';
+      if(questionStatuses[i]==='wrong') cls+=' wrong';
+      d.className=cls;
+      d.textContent=i+1;
+      d.onclick=function(){ currentQuestionIndex=i; loadQuestion(); };
+      row.appendChild(d);
+    });
+  }
+  function loadQuestion(){
+    clearInterval(timerInterval);
+    if(currentQuestionIndex>=questions.length){ endGame(); return; }
+    timeLeft = settings.timePerQuestion;
+    var q = questions[currentQuestionIndex];
+    $('question-counter-pill').textContent = 'Soal '+(currentQuestionIndex+1)+' / '+questions.length;
+    $('quiz-score').textContent = formatNumber(score);
+    $('hex-question').textContent = q.question;
+    var optWrap=$('options-wrap'); optWrap.innerHTML='';
+    var letters=['A','B','C','D'];
+    q.options.forEach(function(opt,idx){
+      var btn=document.createElement('button');
+      btn.type='button'; btn.className='hex-option';
+      btn.innerHTML = '<span class="option-letter">'+letters[idx]+'</span><span>'+escapeHtml(opt)+'</span>';
+      btn.onclick=function(){ selectAnswer(idx,q.answer); };
+      optWrap.appendChild(btn);
+    });
+    hide($('quiz-feedback'));
+    renderTracker();
+    updateTimerDisplay();
+    startTimer();
+  }
+  function updateTimerDisplay(){
+    $('timer-num').textContent = timeLeft;
+    var circumference = 326.7;
+    var pct = timeLeft/settings.timePerQuestion;
+    if(pct<0) pct=0;
+    $('ring-fg').style.strokeDashoffset = String(circumference*(1-pct));
+    $('ring-fg').style.stroke = timeLeft<=10 ? 'var(--danger)' : 'var(--cyan)';
+  }
+  function startTimer(){
+    timerInterval = setInterval(function(){
+      timeLeft--;
+      updateTimerDisplay();
+      if(timeLeft<=0){
+        clearInterval(timerInterval);
+        playSound(false);
+        handleTimeout();
+      }
+    },1000);
+  }
+  function handleTimeout(){
+    var q = questions[currentQuestionIndex];
+    questionStatuses[currentQuestionIndex]='wrong';
+    var buttons=$('options-wrap').children;
+    Array.prototype.forEach.call(buttons,function(b){ b.disabled=true; });
+    if(buttons[q.answer]) buttons[q.answer].classList.add('correct');
+    renderTracker();
+    showFeedback(false,'Waktu Habis','Jawaban benar sudah ditandai hijau.');
+  }
+  function selectAnswer(selected, correct){
+    clearInterval(timerInterval);
+    var buttons=$('options-wrap').children;
+    Array.prototype.forEach.call(buttons,function(b){ b.disabled=true; });
+    if(selected===correct){
+      buttons[selected].classList.add('correct');
+      score += Number(settings.scorePerCorrect)||0;
+      questionStatuses[currentQuestionIndex]='correct';
+      playSound(true);
+      showFeedback(true,'Jawaban Benar!','Kamu hebat, lanjut ke soal berikutnya.');
+    } else {
+      buttons[selected].classList.add('incorrect');
+      buttons[correct].classList.add('correct');
+      questionStatuses[currentQuestionIndex]='wrong';
+      playSound(false);
+      showFeedback(false,'Kurang Tepat','Jawaban benar ditandai warna hijau.');
+    }
+    $('quiz-score').textContent = formatNumber(score);
+    renderTracker();
+  }
+  function showFeedback(isCorrect,title,copy){
+    $('feedback-title').textContent=(isCorrect?'✓ ':'✕ ')+title;
+    $('feedback-copy').textContent=copy;
+    var fb=$('quiz-feedback');
+    fb.classList.remove('hidden');
+    fb.classList.toggle('correct',isCorrect);
+    fb.classList.toggle('wrong',!isCorrect);
+  }
+  function goNext(){ currentQuestionIndex++; loadQuestion(); }
+  function playSound(isCorrect){
+    if(!settings.soundEnabled) return;
+    try{
+      var ctx = new (window.AudioContext||window.webkitAudioContext)();
+      var osc = ctx.createOscillator(); var gain = ctx.createGain();
+      osc.connect(gain); gain.connect(ctx.destination);
+      if(isCorrect){
+        osc.type='triangle';
+        osc.frequency.setValueAtTime(587.33,ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880,ctx.currentTime+0.15);
+        gain.gain.setValueAtTime(0.08,ctx.currentTime);
+      } else {
+        osc.type='sawtooth';
+        osc.frequency.setValueAtTime(200,ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(100,ctx.currentTime+0.3);
+        gain.gain.setValueAtTime(0.12,ctx.currentTime);
+      }
+      osc.start(); osc.stop(ctx.currentTime+0.3);
+    }catch(e){}
+  }
+
+  /* ---------- END GAME ---------- */
+  function endGame(){
+    var maxScore = questions.length*(Number(settings.scorePerCorrect)||0);
+    coins += score; saveLS(LS_KEYS.coins,coins);
+
+    var ts = Date.now();
+    leaderboard.push({ name:playerData.name, wfm:playerData.wfm, team:playerData.team, avatar:playerData.avatarEmoji, score:score, ts:ts });
+    leaderboard.sort(function(a,b){ return b.score-a.score; });
+    saveLS(LS_KEYS.leaderboard, leaderboard);
+
+    playHistory.unshift({ date:new Date(ts).toLocaleString('id-ID'), name:playerData.name, wfm:playerData.wfm, team:playerData.team, score:score, max:maxScore });
+    playHistory = playHistory.slice(0,30);
+    saveLS(LS_KEYS.history, playHistory);
+
+    submitScoreToGoogleSheet(maxScore);
+
+    $('result-score').textContent = playerData.avatarEmoji+' Skor Akhir: '+score+' / '+maxScore;
+    $('result-player').textContent = playerData.name+' • WFM '+playerData.wfm+' • '+playerData.team;
+    switchScreen('screen-result');
+    renderHome();
+  }
+  function submitScoreToGoogleSheet(maxScore){
+    if(!settings.sheetSyncEnabled || !settings.sheetUrl) return;
+    var payload = { timestamp:new Date().toISOString(), name:playerData.name, wfm:playerData.wfm, team:playerData.team, avatar:playerData.avatarEmoji, score:score, maxScore:maxScore };
+    fetch(settings.sheetUrl,{ method:'POST', mode:'cors', headers:{'Content-Type':'text/plain;charset=utf-8'}, body:JSON.stringify(payload) }).catch(function(){});
+  }
+  function downloadExcel(){
+    var rows=[['Rank','Nama','WFM','Team','Skor']];
+    leaderboard.forEach(function(p,i){ rows.push([i+1,p.name,p.wfm,p.team,p.score]); });
+    var csv = rows.map(function(r){ return r.map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; }).join(','); }).join('\n');
+    var blob = new Blob([csv],{type:'application/vnd.ms-excel;charset=utf-8;'});
+    var url = URL.createObjectURL(blob);
+    var a=document.createElement('a'); a.href=url; a.download='leaderboard.xls';
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  }
+  function playAgain(){ switchScreen('screen-home'); renderHome(); }
+
+  /* ---------- LEADERBOARD SCREEN ---------- */
+  function openLeaderboardScreen(){
+    lbFilter='world';
+    document.querySelectorAll('.lb-tab').forEach(function(t){ t.classList.toggle('active', t.dataset.filter==='world'); });
+    switchScreen('screen-leaderboard');
+    renderLeaderboard();
+  }
+  function renderLeaderboard(){
+    var list = leaderboard.slice();
+    if(lbFilter==='team' && playerData.team){
+      list = list.filter(function(p){ return p.team===playerData.team; });
+    } else if(lbFilter==='today'){
+      var today = new Date().toDateString();
+      list = list.filter(function(p){ return p.ts && new Date(p.ts).toDateString()===today; });
+    }
+    list.sort(function(a,b){ return b.score-a.score; });
+
+    var podium=$('podium'); podium.innerHTML='';
+    var top3=list.slice(0,3);
+    var ranksMeta=[{rank:2,medal:'🥈'},{rank:1,medal:'🥇'},{rank:3,medal:'🥉'}];
+    ranksMeta.forEach(function(meta){
+      var p=top3[meta.rank-1];
+      if(!p) return;
+      var div=document.createElement('div');
+      div.className='podium-item rank-'+meta.rank;
+      div.innerHTML = '<span class="podium-medal">'+meta.medal+'</span><div class="podium-avatar">'+(p.avatar||'🙂')+'</div><span class="podium-name">'+escapeHtml(p.name)+'</span><span class="podium-score">🪙 '+formatNumber(p.score)+'</span>';
+      podium.appendChild(div);
+    });
+
+    var listWrap=$('lb-list'); listWrap.innerHTML='';
+    var rest=list.slice(3);
+    if(!list.length){ listWrap.innerHTML='<p class="muted-center">Belum ada data leaderboard.</p>'; }
+    rest.forEach(function(p,i){
+      var row=document.createElement('div');
+      row.className='lb-row';
+      row.innerHTML = '<span class="lb-rank">'+(i+4)+'</span><span class="lb-avatar">'+(p.avatar||'🙂')+'</span><div class="lb-info"><div class="lb-name">'+escapeHtml(p.name)+'</div><div class="lb-sub">'+escapeHtml(p.team||'')+'</div></div><span class="lb-score">🪙 '+formatNumber(p.score)+'</span>';
+      listWrap.appendChild(row);
+    });
+  }
+
+  /* ---------- MODALS: settings/bonus/history ---------- */
+  function openUserSettings(){ $('toggle-sound').checked=!!settings.soundEnabled; show($('modal-settings')); }
+  function toggleUserSound(){ settings.soundEnabled=$('toggle-sound').checked; saveLS(LS_KEYS.settings,settings); }
+  function openBonus(){
+    $('bonus-total-soal').textContent=questions.length;
+    $('bonus-waktu').textContent=settings.timePerQuestion+'s';
+    $('bonus-skor').textContent=settings.scorePerCorrect;
+    $('bonus-max').textContent=questions.length*settings.scorePerCorrect;
+    show($('modal-bonus'));
+  }
+  function openHistory(){
+    var wrap=$('history-list'); wrap.innerHTML='';
+    if(!playHistory.length){ wrap.innerHTML='<p class="muted-center">Belum ada riwayat permainan.</p>'; }
+    else {
+      playHistory.forEach(function(h){
+        var row=document.createElement('div');
+        row.className='history-row';
+        row.innerHTML='<div><div class="history-name">'+escapeHtml(h.name)+'</div><div class="history-date">'+escapeHtml(h.date)+'</div></div><div class="history-score">'+h.score+'/'+h.max+'</div>';
+        wrap.appendChild(row);
+      });
+    }
+    show($('modal-history'));
+  }
+
+  /* ---------- ADMIN ---------- */
+  function openAdminLogin(){
+    $('admin-pass-input').value='';
+    hide($('admin-login-error'));
+    show($('modal-admin-login'));
+  }
+  function submitAdminLogin(){
+    var pass=$('admin-pass-input').value;
+    if(pass!=='12345678'){ show($('admin-login-error')); return; }
+    hide($('modal-admin-login'));
+    openAdminDashboard();
+  }
+  function openAdminDashboard(){
+    switchAdminTab('soal');
+    show($('modal-admin'));
+  }
+  function switchAdminTab(tab){
+    document.querySelectorAll('.admin-tab').forEach(function(t){ t.classList.toggle('active', t.dataset.tab===tab); });
+    hide($('admin-panel-soal')); hide($('admin-panel-pengaturan')); hide($('admin-panel-leaderboard'));
+    show($('admin-panel-'+tab));
+    if(tab==='soal'){ adminEditIndex=null; renderAdminQuestionList(); }
+    if(tab==='pengaturan'){ renderAdminSettingsForm(); }
+    if(tab==='leaderboard'){ renderAdminLeaderboard(); }
+  }
+  function renderAdminQuestionList(){
+    show($('admin-question-list-view')); hide($('admin-question-form-view'));
+    var wrap=$('admin-question-list'); wrap.innerHTML='';
+    if(!questions.length){ wrap.innerHTML='<p class="muted-center">Belum ada soal.</p>'; }
+    questions.forEach(function(q,i){
+      var row=document.createElement('div');
+      row.className='admin-q-row';
+      var preview=q.question.split('\n')[0];
+      row.innerHTML='<span class="admin-q-index">'+(i+1)+'</span><span class="admin-q-preview">'+escapeHtml(preview)+'</span><button type="button" class="mini-btn" data-act="edit" data-i="'+i+'">Edit</button><button type="button" class="mini-btn danger" data-act="del" data-i="'+i+'">Hapus</button>';
+      wrap.appendChild(row);
+    });
+    wrap.querySelectorAll('[data-act="edit"]').forEach(function(b){ b.onclick=function(){ editQuestion(Number(b.dataset.i)); }; });
+    wrap.querySelectorAll('[data-act="del"]').forEach(function(b){ b.onclick=function(){ deleteQuestion(Number(b.dataset.i)); }; });
+  }
+  function addNewQuestion(){ adminEditIndex=-1; showQuestionForm({question:'',options:['','','',''],answer:0}); }
+  function editQuestion(i){ adminEditIndex=i; showQuestionForm(questions[i]); }
+  function showQuestionForm(q){
+    hide($('admin-question-list-view')); show($('admin-question-form-view'));
+    $('admin-form-title').textContent = adminEditIndex===-1 ? 'Tambah Soal Baru' : ('Edit Soal '+(adminEditIndex+1));
+    $('admin-q-text').value=q.question;
+    [0,1,2,3].forEach(function(i){ $('admin-q-opt-'+i).value=q.options[i]||''; });
+    $('admin-q-correct').value=String(q.answer);
+    $('admin-form-delete').classList.toggle('hidden', adminEditIndex===-1);
+  }
+  function cancelQuestionForm(){ renderAdminQuestionList(); }
+  function saveQuestionForm(){
+    var text=$('admin-q-text').value.trim();
+    var opts=[0,1,2,3].map(function(i){ return $('admin-q-opt-'+i).value.trim(); });
+    var ans=Number($('admin-q-correct').value);
+    if(!text || opts.some(function(o){ return !o; })){ alert('Lengkapi pertanyaan dan semua pilihan jawaban.'); return; }
+    var q={ question:text, options:opts, answer:ans };
+    if(adminEditIndex===-1){ questions.push(q); } else { questions[adminEditIndex]=q; }
+    saveLS(LS_KEYS.questions,questions);
+    renderAdminQuestionList();
+  }
+  function deleteQuestionFromForm(){
+    if(adminEditIndex>=0 && confirm('Hapus soal ini?')){
+      questions.splice(adminEditIndex,1);
+      saveLS(LS_KEYS.questions,questions);
+      renderAdminQuestionList();
+    }
+  }
+  function deleteQuestion(i){
+    if(confirm('Hapus soal ini?')){
+      questions.splice(i,1);
+      saveLS(LS_KEYS.questions,questions);
+      renderAdminQuestionList();
+    }
+  }
+  function resetQuestionsDefault(){
+    if(confirm('Kembalikan semua soal ke default? Perubahan tersimpan akan hilang.')){
+      questions = JSON.parse(JSON.stringify(DEFAULT_QUESTIONS));
+      saveLS(LS_KEYS.questions,questions);
+      renderAdminQuestionList();
+    }
+  }
+  function exportQuestionsJSON(){
+    var blob=new Blob([JSON.stringify(questions,null,2)],{type:'application/json'});
+    var url=URL.createObjectURL(blob);
+    var a=document.createElement('a'); a.href=url; a.download='soal-jtly.json';
+    document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  }
+  function importQuestionsJSON(file){
+    var reader=new FileReader();
+    reader.onload=function(){
+      try{
+        var data=JSON.parse(reader.result);
+        if(!Array.isArray(data)) throw new Error('format salah');
+        questions=data;
+        saveLS(LS_KEYS.questions,questions);
+        renderAdminQuestionList();
+        alert('Soal berhasil diimpor.');
+      }catch(e){ alert('File tidak valid.'); }
+    };
+    reader.readAsText(file);
+  }
+  function renderAdminSettingsForm(){
+    $('set-title').value=settings.title;
+    $('set-subtitle').value=settings.subtitle;
+    $('set-time').value=settings.timePerQuestion;
+    $('set-score').value=settings.scorePerCorrect;
+    $('set-sound').checked=!!settings.soundEnabled;
+    $('set-bonus-menu').checked=!!settings.showBonusMenu;
+    $('set-history-menu').checked=!!settings.showHistoryMenu;
+    $('set-sheet-enabled').checked=!!settings.sheetSyncEnabled;
+    $('set-sheet-url').value=settings.sheetUrl||'';
+    $('set-sheet-url').disabled=!settings.sheetSyncEnabled;
+  }
+  function toggleSheetUrlField(){ $('set-sheet-url').disabled=!$('set-sheet-enabled').checked; }
+  function saveAdminSettings(){
+    settings.title=$('set-title').value.trim()||DEFAULT_SETTINGS.title;
+    settings.subtitle=$('set-subtitle').value.trim();
+    settings.timePerQuestion=Math.max(5, Number($('set-time').value)||DEFAULT_SETTINGS.timePerQuestion);
+    settings.scorePerCorrect=Math.max(1, Number($('set-score').value)||DEFAULT_SETTINGS.scorePerCorrect);
+    settings.soundEnabled=$('set-sound').checked;
+    settings.showBonusMenu=$('set-bonus-menu').checked;
+    settings.showHistoryMenu=$('set-history-menu').checked;
+    settings.sheetSyncEnabled=$('set-sheet-enabled').checked;
+    settings.sheetUrl=$('set-sheet-url').value.trim();
+    saveLS(LS_KEYS.settings,settings);
+    renderHome();
+    alert('Pengaturan tersimpan.');
+  }
+  function resetAdminSettings(){
+    if(confirm('Reset semua pengaturan ke default?')){
+      settings=Object.assign({},DEFAULT_SETTINGS);
+      saveLS(LS_KEYS.settings,settings);
+      renderAdminSettingsForm();
+      renderHome();
+    }
+  }
+  function renderAdminLeaderboard(){
+    var wrap=$('admin-lb-list'); wrap.innerHTML='';
+    if(!leaderboard.length){ wrap.innerHTML='<p class="muted-center">Belum ada data.</p>'; return; }
+    leaderboard.forEach(function(p,i){
+      var row=document.createElement('div');
+      row.className='admin-q-row';
+      row.innerHTML='<span class="admin-q-index">'+(i+1)+'</span><span class="admin-q-preview">'+escapeHtml(p.name)+' ('+escapeHtml(p.wfm)+') — '+p.score+'</span><button type="button" class="mini-btn danger" data-i="'+i+'">Hapus</button>';
+      wrap.appendChild(row);
+    });
+    wrap.querySelectorAll('.mini-btn').forEach(function(b){
+      b.onclick=function(){
+        leaderboard.splice(Number(b.dataset.i),1);
+        saveLS(LS_KEYS.leaderboard,leaderboard);
+        renderAdminLeaderboard();
+      };
+    });
+  }
+  function clearAllLeaderboard(){
+    if(confirm('Hapus semua data leaderboard?')){
+      leaderboard=[];
+      saveLS(LS_KEYS.leaderboard,leaderboard);
+      renderAdminLeaderboard();
+    }
+  }
+
+  /* ---------- WIRING ---------- */
+  document.addEventListener('DOMContentLoaded', function(){
+    renderHome();
+    $('btn-play').onclick=openRegister;
+    $('reg-cancel').onclick=closeRegister;
+    $('reg-cancel-x').onclick=closeRegister;
+    $('reg-submit').onclick=submitRegister;
+
+    $('btn-admin').onclick=openAdminLogin;
+    $('admin-login-cancel').onclick=function(){ hide($('modal-admin-login')); };
+    $('admin-login-cancel-x').onclick=function(){ hide($('modal-admin-login')); };
+    $('admin-login-submit').onclick=submitAdminLogin;
+    $('admin-pass-input').addEventListener('keydown', function(e){ if(e.key==='Enter') submitAdminLogin(); });
+    $('admin-close').onclick=function(){ hide($('modal-admin')); };
+    document.querySelectorAll('.admin-tab').forEach(function(t){ t.onclick=function(){ switchAdminTab(t.dataset.tab); }; });
+    $('admin-add-question').onclick=addNewQuestion;
+    $('admin-form-save').onclick=saveQuestionForm;
+    $('admin-form-cancel').onclick=cancelQuestionForm;
+    $('admin-form-delete').onclick=deleteQuestionFromForm;
+    $('admin-reset-questions').onclick=resetQuestionsDefault;
+    $('admin-export-json').onclick=exportQuestionsJSON;
+    $('admin-import-json').onchange=function(e){ if(e.target.files[0]) importQuestionsJSON(e.target.files[0]); };
+    $('set-sheet-enabled').onchange=toggleSheetUrlField;
+    $('admin-save-settings').onclick=saveAdminSettings;
+    $('admin-reset-settings').onclick=resetAdminSettings;
+    $('admin-clear-leaderboard').onclick=clearAllLeaderboard;
+
+    $('btn-avatar').onclick=openRegister;
+    $('card-settings').onclick=openUserSettings;
+    $('modal-settings-close').onclick=function(){ hide($('modal-settings')); };
+    $('toggle-sound').onchange=toggleUserSound;
+    $('card-bonus').onclick=function(){ if(settings.showBonusMenu) openBonus(); };
+    $('modal-bonus-close').onclick=function(){ hide($('modal-bonus')); };
+    $('card-history').onclick=function(){ if(settings.showHistoryMenu) openHistory(); };
+    $('modal-history-close').onclick=function(){ hide($('modal-history')); };
+    $('card-leaderboard').onclick=openLeaderboardScreen;
+
+    $('quiz-back').onclick=function(){
+      if(confirm('Keluar dari permainan? Progress akan hilang.')){
+        clearInterval(timerInterval);
+        switchScreen('screen-home');
+        renderHome();
+      }
+    };
+    $('lb-back').onclick=function(){ switchScreen('screen-home'); };
+    document.querySelectorAll('.lb-tab').forEach(function(t){
+      t.onclick=function(){
+        lbFilter=t.dataset.filter;
+        document.querySelectorAll('.lb-tab').forEach(function(x){ x.classList.toggle('active', x===t); });
+        renderLeaderboard();
+      };
+    });
+    $('btn-next').onclick=goNext;
+    $('btn-see-leaderboard').onclick=openLeaderboardScreen;
+    $('btn-download').onclick=downloadExcel;
+    $('btn-play-again').onclick=playAgain;
+  });
+})();
+</script>
+</body>
+</html>
