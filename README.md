@@ -1,7 +1,7 @@
 # HALIM SORT CENTER MW
 Quiz singkat tentang scorecard Halim Sort Center MW.
 
-Alamat publik: **https://agungzdy.github.io/GTL-DUNEX/**
+Alamat publik: **https://raw.githack.com/agungzdy/GTL-DUNEX/main/index.html**
 
 ## Cara menjalankan
 1. Buka [index.html](index.html) di browser, atau jalankan server lokal:
@@ -12,11 +12,11 @@ Link ini langsung membuka lobby game dan mudah dibagikan ke perangkat lain di ja
 
 ## Publikasi
 
-GitHub Pages menggunakan branch `main` sebagai sumber situs. Setelah deployment aktif, bagikan URL berikut:
+Untuk akses bersama tanpa pengaturan DNS, bagikan URL berikut:
 
-**https://agungzdy.github.io/GTL-DUNEX/**
+**https://raw.githack.com/agungzdy/GTL-DUNEX/main/index.html**
 
-URL ini tidak memerlukan domain pribadi atau pengaturan DNS tambahan.
+URL ini membaca versi terbaru dari branch `main` dan tidak memerlukan domain pribadi.
 
 ## Akses langsung tanpa GitHub
 
